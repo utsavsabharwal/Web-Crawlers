@@ -1,36 +1,53 @@
 import socket
+import select
+import time
 from urlparse import urlparse
-
 class abc:
 	def __init__(self):
-		urls = ['http://docs.python.org/release/3.1.3/library/urllib.parse.html']
+		self.now = time.time()
+		urls = open("urls").readlines()
+		#urls = ['http://docs.python.org/release/3.1.3/library/urllib.parse.html', 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35']
+		self.content = ''
 		self.run(urls)
 		
+		
 	def create_socket(self):
-		return socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		return sock
 
 	def remove_socket(self, sock):
 		sock.close()
 		del sock
 
 	def run(self, urls):
+		socks = []
 		for url in urls:
 			scheme, self.host, path, params, query, fragment = urlparse(url)
 			self.uri = url[url.find(self.host)+len(self.host):]
-			self.send_request(self.create_socket())
+			socks.append(self.send_request())
+		while 1:
+			  rlist, wlist, elist = select.select(socks, [], [], 50)
+				for sock in rlist:
+					content = sock.recv(1024)
+					print time.time() - self.now, len(content)
+			  		if(len(content)==0):
+						break
+
+
 		
-	def send_request(self, sock):
+	def send_request(self, ):
+		sock = self.create_socket()
+		sock.connect((self.host, 80))
+		sock.setblocking(0) 
 		l = ''
-		print self.uri, self.host
 		line1 = "GET %s HTTP/1.1"%(self.uri)
 		line2 = "Host: %s"%(self.host)
 		line3 = "Connection: close"
 		for line in (line1, line2, line3):  
-			print "--", line
-			l+= (line + "\r\n")
-		sock.send(l)
+			sock.send(line+"\r\n")
 		sock.send("\r\n")
-		
+		return sock
+
 a = abc()
 
 
@@ -52,9 +69,4 @@ for line in (
     sock.send(line + "\r\n")
 sock.send("\r\n")
 
-while True:
-    content = sock.recv(1024)
-    if content:
-        print content
-    else:
-        break'''
+'''
