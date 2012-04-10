@@ -10,7 +10,7 @@ insert=[] #list of urls with product id to be inserted
 invalid_domains=[]
 thread_started=[]
 #urls=["https://www.acuprice.com/Products/Overview/?id=M005926853:::247:::247"]
-urls=["com.singlefeed.reporting\t111\thttp://reporting.singlefeed.com/r/?cvsfa=2586&cvsfe=6&cvsfhu=343131303836&cvsfurl=http%3A%2F%2Fwww.gandermountain.com%2Fmodperl%2Ftrack.cgi%3FGSHOP_411086%2B%2Fmodperl%2Fproduct%2Fdetails.cgi%3Fpdesc%3DSlumberjack_Big_Cot%26i%3D411086%26r%3Dview%26aID%3D505B3\t123"]*200
+urls=["com.singlefeed.reporting\t111\thttp://reporting.singlefeed.com/r/?cvsfa=2586&cvsfe=6&cvsfhu=343131303836&cvsfurl=http%3A%2F%2Fwww.gandermountain.com%2Fmodperl%2Ftrack.cgi%3FGSHOP_411086%2B%2Fmodperl%2Fproduct%2Fdetails.cgi%3Fpdesc%3DSlumberjack_Big_Cot%26i%3D411086%26r%3Dview%26aID%3D505B3\t123"]
 #urls=open("urls").readlines()
 #urls=urls[:10000]
 class Crawler(Thread):
